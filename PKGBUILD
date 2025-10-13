@@ -1,7 +1,11 @@
-pkgname=(linux linux-headers linux-docs)
+pkgname=(
+    linux
+    linux-headers
+    linux-docs
+)
 pkgbase=linux
-pkgver=6.16.5
-pkgrel=1
+pkgver=6.17.2
+pkgrel=2
 pkgdesc="The linux kernel and modules"
 arch=('x86_64')
 url="https://www.kernel.org/"
@@ -26,8 +30,8 @@ makedepends=(
 options=('!strip')
 source=(https://cdn.kernel.org/pub/linux/kernel/v6.x/${pkgbase}-${pkgver}.tar.xz
     config)
-sha256sums=(76bffbae7eab2a1de1ed05692bef709f43b02a52fe95ae655cacf0fa252213f3
-    337a5ec9dd806e57e8d69d984d27758369baf227049129184e381cac44be219e)
+sha256sums=(fdebcb065065f5c1b8dc68a6fb59cda50cdddbf9103d207c2196d55ea764f57f
+    bf86e96ca71c8dcc8e582fc1268fc7a749004197756fe09ef67387a2e05d123e)
 
 export KBUILD_BUILD_HOST=flarebird
 export KBUILD_BUILD_USER=${pkgbase}
@@ -79,7 +83,7 @@ build() {
     rm ${modulesdir}/build
 
     # now we call depmod...
-    /usr/sbin/depmod -b ${pkgdir}/usr -F System.map $(<version)
+    # /usr/sbin/depmod -b ${pkgdir}/usr -F System.map $(<version)
  }
 
 package_linux-headers() {
@@ -126,6 +130,14 @@ package_linux-headers() {
 
     echo "Installing KConfig files..."
     find . -name 'Kconfig*' -exec install -Dm644 {} ${builddir}/{} \;
+
+#     echo "Installing Rust files..."
+#     install -Dt ${builddir}/rust -m644 rust/*.rmeta
+#     install -Dt ${builddir}/rust rust/*.so
+
+    echo "Installing unstripped VDSO..."
+    make INSTALL_MOD_PATH=${pkgdir}/usr vdso_install \
+        link=  # Suppress build-id symlinks
 
     echo "Removing unneeded architectures..."
     local arch
