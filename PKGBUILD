@@ -4,8 +4,8 @@ pkgname=(
     linux-docs
 )
 pkgbase=linux
-pkgver=6.17.2
-pkgrel=2
+pkgver=6.17.9
+pkgrel=3
 pkgdesc="The linux kernel and modules"
 arch=('x86_64')
 url="https://www.kernel.org/"
@@ -30,8 +30,8 @@ makedepends=(
 options=('!strip')
 source=(https://cdn.kernel.org/pub/linux/kernel/v6.x/${pkgbase}-${pkgver}.tar.xz
     config)
-sha256sums=(fdebcb065065f5c1b8dc68a6fb59cda50cdddbf9103d207c2196d55ea764f57f
-    bf86e96ca71c8dcc8e582fc1268fc7a749004197756fe09ef67387a2e05d123e)
+sha256sums=(6d08803b953c509df48d44d3281ed392524321d8bb353eb21c0555790c8f8e06
+    4cc487e2c9e7a33e88bf3f022f82e8b89cad384da227b88e12a2a73d8eb58607)
 
 export KBUILD_BUILD_HOST=flarebird
 export KBUILD_BUILD_USER=${pkgbase}
